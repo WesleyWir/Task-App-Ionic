@@ -1,6 +1,9 @@
 ion-checkbox{
     position: relative;
     margin: 0px 10px;
+    --border-radius: 0;
+    --background-checked: #000;
+    --border-color-checked: #fff;
 }
 
 #ion-select-project{
@@ -9,10 +12,35 @@ ion-checkbox{
 }
 ion-item-group{
     .ion-item-task{
+        color: rgb(37, 37, 37);
         border-radius: 10px;
         box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
         margin: 24px 8px;
-        font-size: 18px;
+        font-size: 16px;
         padding: 16px 0px 16px 0px;
+
+        .deadline{
+            position: relative;
+            top: 20px;
+        }
     }
+
+    .low-priority{
+        background-color:  var(--ion-color-success-tint);
+        --background: var(--ion-color-success-tint);
+    }
+
+    .medium-priority{
+        background-color: var(--ion-color-warning-tint);
+        --background: var(--ion-color-warning-tint);
+    }
+
+    .high-priority{
+        background-color: var(--ion-color-danger-tint);
+        --background: var(--ion-color-danger-tint);
+    }
+}
+
+.finished{
+    opacity: 0.25;
 }
