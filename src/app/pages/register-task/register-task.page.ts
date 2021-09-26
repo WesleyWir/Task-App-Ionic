@@ -6,10 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./register-task.page.scss'],
 })
 export class RegisterTaskPage implements OnInit {
+  private headerTitle: string;
 
   constructor() { }
 
   ngOnInit() {
+    this.headerTitle = "Cadastrar Tarefa";
   }
 
 }

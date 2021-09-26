@@ -7,6 +7,8 @@ import { IonicModule } from '@ionic/angular';
 import { RegisterTaskPageRoutingModule } from './register-task-routing.module';
 
 import { RegisterTaskPage } from './register-task.page';
+import { IonicHeaderComponent } from 'src/app/components/ionic-header/ionic-header.component';
+import { IonicTabsComponent } from 'src/app/components/ionic-tabs/ionic-tabs.component';
 
 @NgModule({
   imports: [
@@ -15,6 +17,6 @@ import { RegisterTaskPage } from './register-task.page';
     IonicModule,
     RegisterTaskPageRoutingModule
   ],
-  declarations: [RegisterTaskPage]
+  declarations: [RegisterTaskPage, IonicTabsComponent, IonicHeaderComponent]
 })
 export class RegisterTaskPageModule {}

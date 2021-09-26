@@ -7,6 +7,8 @@ import { IonicModule } from '@ionic/angular';
 import { RegisterProjectPageRoutingModule } from './register-project-routing.module';
 
 import { RegisterProjectPage } from './register-project.page';
+import { IonicTabsComponent } from 'src/app/components/ionic-tabs/ionic-tabs.component';
+import { IonicHeaderComponent } from 'src/app/components/ionic-header/ionic-header.component';
 
 @NgModule({
   imports: [
@@ -15,6 +17,6 @@ import { RegisterProjectPage } from './register-project.page';
     IonicModule,
     RegisterProjectPageRoutingModule
   ],
-  declarations: [RegisterProjectPage]
+  declarations: [RegisterProjectPage, IonicTabsComponent, IonicHeaderComponent]
 })
 export class RegisterProjectPageModule {}

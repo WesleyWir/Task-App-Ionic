@@ -1,9 +1,80 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>register-task</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-ionic-header [title]="headerTitle"></app-ionic-header>
 
 <ion-content>
+    <form>
+        <ion-grid>
+            <ion-row>
+                <ion-col size="12">
+                    <ion-item>
+                        <ion-select class="custom-options" placeholder="Selecione o Projeto" id="ion-select-project">
+                            <ion-select-option value="1">Projeto 1</ion-select-option>
+                            <ion-select-option value="2">Projeto 2</ion-select-option>
+                            <ion-select-option value="3">Projeto 3</ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-col>
+                <ion-col size="12">
+                    <ion-item>
+                        <ion-label position="floating">Título</ion-label>
+                        <ion-input type="text"></ion-input>
+                    </ion-item>
+                </ion-col>
+                <ion-col size="12">
+                    <ion-item>
+                        <ion-label position="floating">Descrição</ion-label>
+                        <ion-textarea rows="5" cols="20" placeholder="Descreva a tarefa aqui..."></ion-textarea>
+                    </ion-item>
+                </ion-col>
+                <ion-col size="12">
+                    <ion-item>
+                        <ion-label>Prioridade</ion-label>
+                        <ion-select [interfaceOptions]="customPopoverOptions" interface="popover"
+                            placeholder="Selecione">
+                            <ion-select-option value="3">Alta</ion-select-option>
+                            <ion-select-option value="2">Média</ion-select-option>
+                            <ion-select-option value="1">Baixa</ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-col>
+                <ion-col size="6">
+                    <ion-item>
+                        <ion-label position="floating">Data de Entrada</ion-label>
+                        <ion-datetime displayFormat="DD/MM/YYYY"></ion-datetime>
+                    </ion-item>
+                </ion-col>
+                <ion-col size="6">
+                    <ion-item>
+                        <ion-label position="floating">Data de Entrega</ion-label>
+                        <ion-datetime displayFormat="DD/MM/YYYY"></ion-datetime>
+                    </ion-item>
+                </ion-col>
 
+                <ion-col size="12">
+                    <ion-item>
+                        <ion-label>Lembrar-me</ion-label>
+                        <ion-select placeholder="Selecione">
+                            <ion-select-option value="3">1 Dia Antes da data de entrega</ion-select-option>
+                            <ion-select-option value="2">5 Dia Antes da data de entrega</ion-select-option>
+                            <ion-select-option value="1">7 Dia Antes da data de entrega</ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col size="6">
+                    <ion-button color="primary" type="submit" size="large">
+                        Salvar
+                    </ion-button>
+                </ion-col>
+                <ion-col size="6">
+                    <ion-button color="primary" type="submit" size="large">
+                        Cancelar
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </form>
 </ion-content>
+
+<app-ionic-tabs></app-ionic-tabs>

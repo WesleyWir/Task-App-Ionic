@@ -7,9 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterProjectPage implements OnInit {
 
+  private headerTitle: string;
   constructor() { }
 
   ngOnInit() {
+    this.headerTitle = "Cadastrar Projeto";
   }
 
 }
