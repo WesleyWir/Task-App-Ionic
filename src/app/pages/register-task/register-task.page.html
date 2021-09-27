@@ -1,35 +1,40 @@
 <app-ionic-header [title]="headerTitle"></app-ionic-header>
 
 <ion-content>
-    <form>
+    <form [formGroup]="_formCreateTask" (ngSubmit)="submitForm()" novalidate>
         <ion-grid>
             <ion-row>
                 <ion-col size="12">
                     <ion-item lines="none">
-                        <ion-select class="custom-options" id="ion-select-project" placeholder="Selecione o Projeto" id="ion-select-project">
-                            <ion-select-option value="1">Projeto 1</ion-select-option>
-                            <ion-select-option value="2">Projeto 2</ion-select-option>
-                            <ion-select-option value="3">Projeto 3</ion-select-option>
+                        <ion-select class="custom-options" 
+                            id="ion-select-project" 
+                            placeholder="Selecione o Projeto" formControlName="project">
+                            <ion-select-option value="{{ item.key }}" *ngFor="let item of projectList">{{ item.project._title }}</ion-select-option>
                         </ion-select>
                     </ion-item>
                 </ion-col>
                 <ion-col size="12">
                     <ion-item lines="none">
                         <ion-label position="floating">Título</ion-label>
-                        <ion-input type="text"></ion-input>
+                        <ion-input type="text" formControlName="title"></ion-input>
                     </ion-item>
                 </ion-col>
                 <ion-col size="12">
                     <ion-item lines="none">
                         <ion-label position="floating">Descrição</ion-label>
-                        <ion-textarea rows="5" cols="20" placeholder="Descreva a tarefa aqui..."></ion-textarea>
+                        <ion-textarea rows="5" cols="20" placeholder="Descreva a tarefa aqui..."
+                        formControlName="description"></ion-textarea>
                     </ion-item>
                 </ion-col>
                 <ion-col size="12">
                     <ion-item>
                         <ion-label>Prioridade</ion-label>
-                        <ion-select [interfaceOptions]="customPopoverOptions" interface="popover"
-                            placeholder="Selecione">
+                        <ion-select 
+                            [interfaceOptions]="customPopoverOptions" 
+                            interface="popover"
+                            placeholder="Selecione"
+                            formControlName="priority">
+                            <ion-select-option value="0">Nenhuma</ion-select-option>
                             <ion-select-option value="3">Alta</ion-select-option>
                             <ion-select-option value="2">Média</ion-select-option>
                             <ion-select-option value="1">Baixa</ion-select-option>
@@ -39,20 +44,24 @@
                 <ion-col size="6">
                     <ion-item>
                         <ion-label position="floating">Data de Entrada</ion-label>
-                        <ion-datetime displayFormat="DD/MM/YYYY"></ion-datetime>
+                        <ion-datetime displayFormat="DD/MM/YYYY"
+                        formControlName="entryDate"></ion-datetime>
                     </ion-item>
                 </ion-col>
                 <ion-col size="6">
                     <ion-item>
                         <ion-label position="floating">Data de Entrega</ion-label>
-                        <ion-datetime displayFormat="DD/MM/YYYY"></ion-datetime>
+                        <ion-datetime displayFormat="DD/MM/YYYY"
+                        formControlName="deadlineDate"></ion-datetime>
                     </ion-item>
                 </ion-col>
 
                 <ion-col size="12">
                     <ion-item>
                         <ion-label>Lembrar-me</ion-label>
-                        <ion-select placeholder="Selecione">
+                        <ion-select 
+                            placeholder="Selecione"
+                            formControlName="rememberMe">
                             <ion-select-option value="3">1 Dia Antes da data de entrega</ion-select-option>
                             <ion-select-option value="2">5 Dia Antes da data de entrega</ion-select-option>
                             <ion-select-option value="1">7 Dia Antes da data de entrega</ion-select-option>
@@ -63,7 +72,9 @@
             
             <ion-row>
                 <ion-col size="12">
-                    <ion-button color="primary-custom" expand="full" class="create-task">Criar Tarefa</ion-button>
+                    <ion-button color="primary-custom" expand="full" class="create-task" type="submit">
+                        <strong>Criar Tarefa</strong>
+                    </ion-button>
                 </ion-col>
             </ion-row>
         </ion-grid>

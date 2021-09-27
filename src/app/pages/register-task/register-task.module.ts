@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -15,7 +15,8 @@ import { IonicTabsComponent } from 'src/app/components/ionic-tabs/ionic-tabs.com
     CommonModule,
     FormsModule,
     IonicModule,
-    RegisterTaskPageRoutingModule
+    RegisterTaskPageRoutingModule,
+    FormsModule, ReactiveFormsModule
   ],
   declarations: [RegisterTaskPage, IonicTabsComponent, IonicHeaderComponent]
 })

@@ -1,26 +1,31 @@
 <app-ionic-header [title]="headerTitle"></app-ionic-header>
 
 <ion-content>
-  <form>
+  <form [formGroup]="_formCreateProject" (ngSubmit)="submitForm()">
     <ion-grid>
       <ion-row>
         <ion-col size="12">
           <ion-item>
             <ion-label position="floating">Título</ion-label>
-            <ion-input type="text"></ion-input>
+            <ion-input type="text" formControlName="title"></ion-input>
           </ion-item>
+
+          <span *ngIf="_isSubmitted && errorControl.title.errors?.required">Título é obrigatório</span>
         </ion-col>
         <ion-col size="12">
           <ion-item>
             <ion-label position="floating">Descrição</ion-label>
-            <ion-textarea rows="5" cols="20" placeholder="Descreva a tarefa aqui..."></ion-textarea>
+            <ion-textarea rows="5" cols="20" placeholder="Descreva a tarefa aqui..." formControlName="description"></ion-textarea>
           </ion-item>
+          <span *ngIf="_isSubmitted && errorControl.description.errors?.required">Descrição é obrigatória</span>
         </ion-col>
       </ion-row>
 
       <ion-row>
         <ion-col size="12">
-          <ion-button color="primary-custom" expand="full">Criar Projeto</ion-button>
+          <ion-button color="primary-custom" expand="full" type="submit">
+            <strong>Criar Projeto</strong>
+          </ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>

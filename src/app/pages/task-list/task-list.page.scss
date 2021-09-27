@@ -1,4 +1,4 @@
-ion-checkbox{
+ion-checkbox {
     position: relative;
     margin: 0px 10px;
     --border-radius: 0;
@@ -6,12 +6,12 @@ ion-checkbox{
     --border-color-checked: #fff;
 }
 
-#ion-select-project{
+#ion-select-project {
     margin: 0 auto;
     height: 64px;
 }
-ion-item-group{
-    .ion-item-task{
+ion-item-group {
+    .ion-item-task {
         color: rgb(37, 37, 37);
         border-radius: 10px;
         box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -19,28 +19,31 @@ ion-item-group{
         font-size: 16px;
         padding: 16px 0px 16px 0px;
 
-        .deadline{
+        .deadline {
             position: relative;
             top: 20px;
         }
     }
 
-    .low-priority{
-        background-color:  var(--ion-color-success-tint);
-        --background: var(--ion-color-success-tint);
+    .low-priority {
+        background-color: var(--ion-color-success-tint);
+        --background: linear-gradient();
+        background-image: linear-gradient(var(--ion-color-success-tint), var(--ion-color-success));
     }
 
-    .medium-priority{
+    .medium-priority {
         background-color: var(--ion-color-warning-tint);
-        --background: var(--ion-color-warning-tint);
+        --background: linear-gradient();
+        background-image: linear-gradient(var(--ion-color-warning-tint), var(--ion-color-warning));
     }
 
-    .high-priority{
+    .high-priority {
         background-color: var(--ion-color-danger-tint);
-        --background: var(--ion-color-danger-tint);
+        --background: linear-gradient();
+        background-image: linear-gradient(var(--ion-color-danger-tint), var(--ion-color-danger));
     }
 }
 
-.finished{
+.finished {
     opacity: 0.25;
 }
