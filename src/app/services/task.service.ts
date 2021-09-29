@@ -36,6 +36,11 @@ export class TaskService {
     return this.storage.remove(key);
   }
 
+  public async get(key: string) {
+    const obj = await this.storage.get('name');
+    return obj;
+  }
+
   public getAllTasks() {
     let tasks: TaskList[] = [];
 
@@ -54,9 +59,30 @@ export class TaskService {
         return Promise.reject(error);
       });
   }
+
+  public getTaskFromProject(projectKey: string) {
+    let tasks: TaskList[] = [];
+
+    return this.storage.forEach((value: Task, key: string, iterationNumber: Number) => {
+      let task = new TaskList();
+      if (key.includes(this._prefixKey)) {
+        if (value._project == projectKey) {
+          task.key = key;
+          task.task = value;
+          tasks.push(task);
+        }
+      }
+    })
+      .then(() => {
+        return Promise.resolve(tasks);
+      })
+      .catch((error) => {
+        return Promise.reject(error);
+      });
+  }
 }
 
 export class TaskList {
   key: string;
-  task: Task;
+  public task: Task;
 }

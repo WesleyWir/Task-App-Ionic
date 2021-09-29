@@ -2,20 +2,22 @@
 
 <ion-content>
   <ion-item>
-    <ion-select class="custom-options" placeholder="Selecione o Projeto" id="ion-select-project">
-      <ion-select-option value="1">Projeto 1</ion-select-option>
-      <ion-select-option value="2">Projeto 2</ion-select-option>
-      <ion-select-option value="3">Projeto 3</ion-select-option>
+    <ion-select class="custom-options" placeholder="Selecione o Projeto" id="ion-select-project"
+      (ionChange)="changeProject($event)">
+      <ion-select-option value="{{ item.key }}" *ngFor="let item of projectList">{{ item.project._title }}
+      </ion-select-option>
     </ion-select>
   </ion-item>
 
-  <ion-list>
+  <ion-list *ngFor="let item of taskList">
     <ion-item-group>
       <ion-item class="ion-item-task low-priority" lines="none">
         <ion-checkbox color="primary"></ion-checkbox>
-        <ion-label>Item 1</ion-label>
-        <p class="deadline">26/02/2021</p>
-        <ion-icon name="arrow-forward"></ion-icon>
+        <ion-label><b>{{ item.task._title }}</b></ion-label>
+        <p class="deadline">{{ this.formatDate(item.task._deadlineDate) }}</p>
+        <div class="edit-item" (click)="goToEdit(item.task)">
+          <ion-icon name="add-circle-outline"></ion-icon>
+        </div>
       </ion-item>
 
       <ion-item class="ion-item-task medium-priority" lines="none">

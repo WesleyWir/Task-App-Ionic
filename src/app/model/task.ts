@@ -1,12 +1,24 @@
 
 export class Task {
-    private _project: string;
+    public _project: string;
+    private _key: string;
     private _title: string;
     private _description: string;
     private _priority: number;
     private _entryDate: string;
     private _deadlineDate: string;
     private _rememberMe: number;
+    private _completed: boolean;
+
+    public get key(): string
+    {
+        return this._key;
+    }
+
+    public set key(key: string)
+    {
+        this._key = key;
+    }
 
     public get project(): string
     {
@@ -19,6 +31,10 @@ export class Task {
     }
 
     public get title(): string {
+        return this._title;
+    }
+
+    public getTitle(): string {
         return this._title;
     }
 
@@ -64,6 +80,16 @@ export class Task {
 
     public set rememberMe(rememberMe: number) {
         this._rememberMe = rememberMe;
+    }
+
+    public get completed(): boolean
+    {
+        return this._completed;
+    }
+
+    public set completed(completed: boolean)
+    {
+        this._completed = completed;
     }
 
 }
