@@ -136,7 +136,7 @@ export class DetailsTaskPage implements OnInit {
   }
 
   public deleteTask(){
-    this.updateTask(this._task.key)
+    this.TaskService.remove(this._task.key)
       .then(() => {
         this.alert("TAREFA", "SUCESSO", "Tarefa Removida!");
         this.router.navigate(["/task-list"]);
@@ -145,5 +145,4 @@ export class DetailsTaskPage implements OnInit {
         this.alert("TAREFA", "ERRO", "Não foi possível atualizar a tarefa :(");
       });
   }
-
 }

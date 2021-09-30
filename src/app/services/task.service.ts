@@ -33,7 +33,7 @@ export class TaskService {
   }
 
   public remove(key: string) {
-    return localStorage.removeItem(key);
+    return this.storage.remove(key);
   }
 
   public async get(key: string) {

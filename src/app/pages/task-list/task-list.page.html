@@ -2,7 +2,7 @@
 
 <ion-content>
   <ion-item>
-    <ion-select class="custom-options" placeholder="Selecione o Projeto" id="ion-select-project"
+    <ion-select class="custom-options project-select" placeholder="Selecione o Projeto" id="ion-select-project"
       (ionChange)="changeProject($event)">
       <ion-select-option value="{{ item.key }}" *ngFor="let item of projectList">{{ item.project._title }}
       </ion-select-option>

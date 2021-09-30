@@ -31,6 +31,10 @@ export class TaskListPage implements OnInit {
     this.projectList = await this.getProjectsToSelect();
   }
 
+  async ionViewWillEnter(){
+    // TODO LISTAGEM
+  }
+
   // SERVICES
 
   private async getProjectsToSelect() {
