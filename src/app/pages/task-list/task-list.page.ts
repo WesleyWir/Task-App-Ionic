@@ -11,6 +11,7 @@ import { TaskList, TaskService } from 'src/app/services/task.service';
 })
 export class TaskListPage implements OnInit {
   private headerTitle: string;
+  selectedProject: string;
 
   public projectList: ProjectList[];
   public taskList: TaskList[];
@@ -33,6 +34,9 @@ export class TaskListPage implements OnInit {
 
   async ionViewWillEnter(){
     // TODO LISTAGEM
+    if(this.selectedProject){
+      this.taskList = await this.getTasksFromProject(this.selectedProject);
+    }
   }
 
   // SERVICES
@@ -52,12 +56,29 @@ export class TaskListPage implements OnInit {
     return tasks;
   }
 
+  public async deleteTask(key, element){
+    this.TaskService.remove(key)
+      .then(() => {
+        element.classList.add("finished");
+      })
+      .catch((err) => {
+        console.log(err)
+      });
+  }
+
   // EVENTS;
 
   private async changeProject(event){
     let selectedProject = event.target.value;
 
     this.taskList = await this.getTasksFromProject(selectedProject);
+  }
+
+  private async completeTask(event){
+    let parent = event.target.parentElement;
+    let key = 'task_'+event.target.value;
+
+    this.deleteTask(key, parent);
   }
 
   private goToEdit(item: Task){

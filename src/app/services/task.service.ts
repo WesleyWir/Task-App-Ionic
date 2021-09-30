@@ -29,6 +29,7 @@ export class TaskService {
   }
 
   private save(key: string, task: Task) {
+    task.key = key;
     return this.storage.set(this._prefixKey + key, task);
   }
 
