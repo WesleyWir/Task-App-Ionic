@@ -31,17 +31,18 @@ export class DetailsTaskPage implements OnInit {
 
   async ngOnInit() {
     this.headerTitle = "Editar Tarefa";
-
+    
     const nav = this.router.getCurrentNavigation();
     this._task = new Task();
-    this._task.key = nav.extras.state.task._key;
-    this._task.project = nav.extras.state.task._project;
-    this._task.title = nav.extras.state.task._title;
-    this._task.description = nav.extras.state.task._description;
-    this._task.priority = nav.extras.state.task._priority;
-    this._task.entryDate = nav.extras.state.task._entryDate;
-    this._task.deadlineDate = nav.extras.state.task._deadlineDate;
-    this._task.rememberMe = nav.extras.state.task._rememberMe;
+    
+    this._task.key = nav.extras.state.item.key;
+    this._task.project = nav.extras.state.item.task._project;
+    this._task.title = nav.extras.state.item.task._title;
+    this._task.description = nav.extras.state.item.task._description;
+    this._task.priority = nav.extras.state.item.task._priority;
+    this._task.entryDate = nav.extras.state.item.task._entryDate;
+    this._task.deadlineDate = nav.extras.state.item.task._deadlineDate;
+    this._task.rememberMe = nav.extras.state.item.task._rememberMe;
 
     this._formDetailTask = this.formBuilder.group({
       key: [this._task.key, [Validators.required]],
@@ -108,6 +109,41 @@ export class DetailsTaskPage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  public delete(){
+    this.presentAlertConfirm("TAREFA", "Deseja realmente deletar a tarefa?");
+  }
+
+  async presentAlertConfirm(title : string, message : string) {
+    const alert = await this.alertController.create({
+      header: title,
+      message: message,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        }, {
+          text: 'Confirmar',
+          handler: () => {
+            this.deleteTask();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  public deleteTask(){
+    this.updateTask(this._task.key)
+      .then(() => {
+        this.alert("TAREFA", "SUCESSO", "Tarefa Removida!");
+        this.router.navigate(["/task-list"]);
+      })
+      .catch(() => {
+        this.alert("TAREFA", "ERRO", "Não foi possível atualizar a tarefa :(");
+      });
   }
 
 }

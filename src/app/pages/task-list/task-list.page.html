@@ -15,7 +15,7 @@
         <ion-checkbox color="primary"></ion-checkbox>
         <ion-label><b>{{ item.task._title }}</b></ion-label>
         <p class="deadline">{{ this.formatDate(item.task._deadlineDate) }}</p>
-        <div class="edit-item" (click)="goToEdit(item.task)">
+        <div class="edit-item" (click)="goToEdit(item)">
           <ion-icon name="add-circle-outline"></ion-icon>
         </div>
       </ion-item>

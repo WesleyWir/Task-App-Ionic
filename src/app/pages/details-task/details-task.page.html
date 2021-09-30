@@ -73,8 +73,13 @@
             
             <ion-row>
                 <ion-col size="12">
-                    <ion-button color="primary-custom" expand="full" class="create-task" type="submit">
+                    <ion-button color="primary-custom" expand="full" class="button-task" type="submit">
                         <strong>Atualizar Tarefa</strong>
+                    </ion-button>
+                </ion-col>
+                <ion-col size="12">
+                    <ion-button color="danger" expand="full" class="button-task" (click)="delete()">
+                        <strong>Deletar Tarefa</strong>
                     </ion-button>
                 </ion-col>
             </ion-row>

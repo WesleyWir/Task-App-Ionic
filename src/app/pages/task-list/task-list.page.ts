@@ -56,8 +56,8 @@ export class TaskListPage implements OnInit {
     this.taskList = await this.getTasksFromProject(selectedProject);
   }
 
-  private goToEdit(task: Task){
-    this.router.navigateByUrl('/details-task', {state: {task}});
+  private goToEdit(item: Task){
+    this.router.navigateByUrl('/details-task', {state: {item}});
   }
 
   // HELPERS;
