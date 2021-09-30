@@ -25,7 +25,7 @@ export class TaskService {
   }
 
   public update(key: string, task: Task) {
-    return this.save(key, task);
+    return this.storage.set(key, task);
   }
 
   private save(key: string, task: Task) {
@@ -33,11 +33,11 @@ export class TaskService {
   }
 
   public remove(key: string) {
-    return this.storage.remove(key);
+    return localStorage.removeItem(key);
   }
 
   public async get(key: string) {
-    const obj = await this.storage.get('name');
+    const obj = await this.storage.get(key);
     return obj;
   }
 

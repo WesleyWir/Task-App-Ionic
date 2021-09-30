@@ -12,6 +12,7 @@ import { ProjectList, ProjectService } from 'src/app/services/project.service';
   styleUrls: ['./details-task.page.scss'],
 })
 export class DetailsTaskPage implements OnInit {
+  private headerTitle: string;
   private _task: Task;
   private model: Task;
   private _formDetailTask: FormGroup;
@@ -29,16 +30,19 @@ export class DetailsTaskPage implements OnInit {
   }
 
   async ngOnInit() {
+    this.headerTitle = "Editar Tarefa";
+    
     const nav = this.router.getCurrentNavigation();
     this._task = new Task();
-    this._task.key = nav.extras.state.task._key;
-    this._task.project = nav.extras.state._project;
-    this._task.title = nav.extras.state.task._title;
-    this._task.description = nav.extras.state._description;
-    this._task.priority = nav.extras.state._priority;
-    this._task.entryDate = nav.extras.state._entryDate;
-    this._task.deadlineDate = nav.extras.state._deadlineDate;
-    this._task.rememberMe = nav.extras.state._rememberMe;
+    
+    this._task.key = nav.extras.state.item.key;
+    this._task.project = nav.extras.state.item.task._project;
+    this._task.title = nav.extras.state.item.task._title;
+    this._task.description = nav.extras.state.item.task._description;
+    this._task.priority = nav.extras.state.item.task._priority;
+    this._task.entryDate = nav.extras.state.item.task._entryDate;
+    this._task.deadlineDate = nav.extras.state.item.task._deadlineDate;
+    this._task.rememberMe = nav.extras.state.item.task._rememberMe;
 
     this._formDetailTask = this.formBuilder.group({
       key: [this._task.key, [Validators.required]],
@@ -58,10 +62,12 @@ export class DetailsTaskPage implements OnInit {
 
   public submitForm() {
     this._isSubmitted = true;
+    this.model = new Task();
 
     this.model.key = this._formDetailTask.value["key"];
     this.model.project = this._formDetailTask.value["project"];
     this.model.title = this._formDetailTask.value["title"];
+    
     this.model.description = this._formDetailTask.value["description"];
     this.model.priority = this._formDetailTask.value["priority"];
     this.model.entryDate = this._formDetailTask.value["entryDate"];
@@ -81,11 +87,11 @@ export class DetailsTaskPage implements OnInit {
   update(key) {
     this.updateTask(key)
       .then(() => {
-        this.alert("TAREFA", "SUCESSO", "Tarefa criada!");
+        this.alert("TAREFA", "SUCESSO", "Tarefa Atualizada!");
         this.router.navigate(["/task-list"]);
       })
       .catch(() => {
-        this.alert("TAREFA", "ERRO", "Não foi possível criar a tarefa :(");
+        this.alert("TAREFA", "ERRO", "Não foi possível atualizar a tarefa :(");
       });
   }
 
@@ -103,6 +109,41 @@ export class DetailsTaskPage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  public delete(){
+    this.presentAlertConfirm("TAREFA", "Deseja realmente deletar a tarefa?");
+  }
+
+  async presentAlertConfirm(title : string, message : string) {
+    const alert = await this.alertController.create({
+      header: title,
+      message: message,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        }, {
+          text: 'Confirmar',
+          handler: () => {
+            this.deleteTask();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  public deleteTask(){
+    this.updateTask(this._task.key)
+      .then(() => {
+        this.alert("TAREFA", "SUCESSO", "Tarefa Removida!");
+        this.router.navigate(["/task-list"]);
+      })
+      .catch(() => {
+        this.alert("TAREFA", "ERRO", "Não foi possível atualizar a tarefa :(");
+      });
   }
 
 }
