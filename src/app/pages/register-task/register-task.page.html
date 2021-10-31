@@ -9,7 +9,7 @@
                         <ion-select class="custom-options" 
                             id="ion-select-project" 
                             placeholder="Selecione o Projeto" formControlName="project">
-                            <ion-select-option value="{{ item.key }}" *ngFor="let item of projectList">{{ item.project._title }}</ion-select-option>
+                            <ion-select-option value="{{ proj.id }}" *ngFor="let proj of projectList">{{ proj.title }}</ion-select-option>
                         </ion-select>
                     </ion-item>
                 </ion-col>

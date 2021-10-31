@@ -1,17 +1,71 @@
-import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { Task } from '../model/task';
-import { Storage } from '@ionic/storage-angular';
+import { Observable, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { retry, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
-  private _storage: Storage | null = null;
-  private _prefixKey = 'task_';
-}
+  API_TASK_ROUTE = "http://localhost:3000/tasks";
 
-export class TaskList {
-  key: string;
-  public task: Task;
+  constructor(private httpClient: HttpClient) { }
+
+  httpOptions = {
+      header: new HttpHeaders({"Content-Type": "application/json"}),
+  };
+
+  getTasks(): Observable<Task[]> 
+  {
+    return this.httpClient.get<Task[]>(this.API_TASK_ROUTE)
+    .pipe(
+      retry(2),
+      catchError(this.handlerError)
+    );
+  };
+
+  getTask(id: number): Observable<Task>
+  {
+    return this.httpClient.get<Task>(`${this.API_TASK_ROUTE}/${id}`)
+    .pipe(
+      retry(2),
+      catchError(this.handlerError)
+    );
+  }
+
+  saveTask(task: Task): Observable<Task>{
+    return this.httpClient.post<Task>(this.API_TASK_ROUTE, task)
+    .pipe(
+      retry(2),
+      catchError(this.handlerError)
+    );
+  }
+
+  updateTask(task: Task): Observable<Task>{
+    return this.httpClient.put<Task>(`${this.API_TASK_ROUTE}/${task.id}`, task)
+    .pipe(
+      retry(2),
+      catchError(this.handlerError)
+    );
+  }
+
+  deleteTask(project: Task): Observable<Task>{
+    return this.httpClient.delete<Task>(`${this.API_TASK_ROUTE}/${project.id}`)
+    .pipe(
+      retry(2),
+      catchError(this.handlerError)
+    );
+  };
+
+  handlerError(error: HttpErrorResponse){
+    let errorMessage = '';
+    if(error.error instanceof ErrorEvent) {
+      errorMessage = error.error.message;
+    }else{
+      errorMessage = `Código de erro: ${error.status} mensagem ${errorMessage}`;
+      console.log(errorMessage);
+      return throwError(errorMessage);
+    }
+  }
 }

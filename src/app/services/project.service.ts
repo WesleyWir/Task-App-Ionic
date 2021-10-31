@@ -34,16 +34,16 @@ export class ProjectService {
     );
   }
 
-  saveProject(team: Project): Observable<Project>{
-    return this.httpClient.post<Project>(this.API_PROJECTS_ROUTE, team)
+  saveProject(project: Project): Observable<Project>{
+    return this.httpClient.post<Project>(this.API_PROJECTS_ROUTE, project)
     .pipe(
       retry(2),
       catchError(this.handlerError)
     );
   }
 
-  updateProject(team: Project): Observable<Project>{
-    return this.httpClient.put<Project>(`${this.API_PROJECTS_ROUTE}/${team.id}`, team)
+  updateProject(project: Project): Observable<Project>{
+    return this.httpClient.put<Project>(`${this.API_PROJECTS_ROUTE}/${project.id}`, project)
     .pipe(
       retry(2),
       catchError(this.handlerError)

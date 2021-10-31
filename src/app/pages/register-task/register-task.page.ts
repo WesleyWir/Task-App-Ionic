@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AlertController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';
 import { Task } from 'src/app/model/task';
 import { TaskService } from 'src/app/services/task.service';
-import { ProjectList, ProjectService } from 'src/app/services/project.service';
+import { ProjectService } from 'src/app/services/project.service';
 import { Router } from '@angular/router';
+import { Project } from 'src/app/model/project';
 
 @Component({
   selector: 'app-register-task',
@@ -17,29 +18,27 @@ export class RegisterTaskPage implements OnInit {
   private _isSubmitted: boolean = false;
 
   private model: Task;
-  private key: string;
-
-  public projectList: ProjectList[];
+  public projectList: Project[];
 
   constructor(
     public router: Router,
-    public alertController: AlertController,
     private TaskService: TaskService,
     private ProjectService: ProjectService,
-    public formBuilder: FormBuilder
+    public formBuilder: FormBuilder,
+    private toast: ToastController
   ) {
     this.model = new Task();
   }
 
   async ionViewDidEnter() {
-    this.projectList = await this.getProjectsToSelect();
+    this.getProjectsToSelect();
   }
 
   ngOnInit() {
     this.headerTitle = "Cadastrar Tarefa";
 
     this._formCreateTask = this.formBuilder.group({
-      project: ['', [Validators.required]],
+      project: [, [Validators.required]],
       title: ['', [Validators.required]],
       description: ['', [Validators.required]],
       priority: ['', [Validators.required]],
@@ -52,11 +51,11 @@ export class RegisterTaskPage implements OnInit {
   public submitForm() {
     this._isSubmitted = true;
     if (!this._formCreateTask.valid) {
-      this.alert("Projeto", "ERRO - Campos Vazios", "Todos os campos são obrigatórios");
+      this.presentToast("ERRO - Campos Vazios, Todos os campos são obrigatórios");
       return false;
     }
 
-    this.model.project = this._formCreateTask.value["project"];
+    this.model.projectId = this._formCreateTask.value["project"];
     this.model.title = this._formCreateTask.value["title"];
     this.model.description = this._formCreateTask.value["description"];
     this.model.priority = this._formCreateTask.value["priority"];
@@ -68,38 +67,28 @@ export class RegisterTaskPage implements OnInit {
   }
 
   save() {
-    this.saveTask()
-      .then(() => {
-        this.alert("TAREFA", "SUCESSO", "Tarefa criada!");
-        this.router.navigate(["/task-list"]);
-      })
-      .catch(() => {
-        this.alert("TAREFA", "ERRO", "Não foi possível criar a tarefa :(");
-      });
+    this.saveTask(this.model);
   }
 
-  private saveTask() {
-    return this.TaskService.insert(this.model);
-  }
-
-  private async getProjectsToSelect() {
-    let projects = await this.ProjectService.getAllProjects()
-      .then((result) => result)
-      .then(data => data);
-
-    return projects;
-  }
-
-  async alert(title: string, subtitle: string, message: string) {
-    const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: title,
-      subHeader: subtitle,
-      message: message,
-      buttons: ['OK']
+  private saveTask(task: Task) {
+    return this.TaskService.saveTask(task)
+    .subscribe(() => {
+      this.presentToast(`Tarefa Criada`)
     });
-
-    await alert.present();
   }
 
+  private getProjectsToSelect() {
+    let projects = this.ProjectService.getProjects()
+    .subscribe((projects: Project[]) => {
+      this.projectList = projects;
+    });
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toast.create({
+      message: message,
+      duration: 4000
+    });
+    toast.present();
+  }
 }
