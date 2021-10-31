@@ -1,35 +1,58 @@
 <app-ionic-header [title]="headerTitle"></app-ionic-header>
 
 <ion-content>
-  <form [formGroup]="_formCreateProject" (ngSubmit)="submitForm()">
-    <ion-grid>
-      <ion-row>
-        <ion-col size="12">
-          <ion-item>
-            <ion-label position="floating">Título</ion-label>
-            <ion-input type="text" formControlName="title"></ion-input>
-          </ion-item>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <ion-item>
+          <ion-label position="floating">Título</ion-label>
+          <ion-input type="text" [(ngModel)]="project.title"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="12">
+        <ion-item>
+          <ion-label position="floating">Descrição</ion-label>
+          <ion-textarea rows="5" cols="20" placeholder="Descreva a tarefa aqui..." [(ngModel)]="project.description">
+          </ion-textarea>
+        </ion-item>
+      </ion-col>
+    </ion-row>
 
-          <span *ngIf="_isSubmitted && errorControl.title.errors?.required">Título é obrigatório</span>
-        </ion-col>
-        <ion-col size="12">
-          <ion-item>
-            <ion-label position="floating">Descrição</ion-label>
-            <ion-textarea rows="5" cols="20" placeholder="Descreva a tarefa aqui..." formControlName="description"></ion-textarea>
-          </ion-item>
-          <span *ngIf="_isSubmitted && errorControl.description.errors?.required">Descrição é obrigatória</span>
-        </ion-col>
-      </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-button color="primary-custom" expand="full" (click)="save()">
+          <strong>Salvar Projeto</strong>
+        </ion-button>
+      </ion-col>
+    </ion-row>
 
-      <ion-row>
-        <ion-col size="12">
-          <ion-button color="primary-custom" expand="full" type="submit">
-            <strong>Criar Projeto</strong>
-          </ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </form>
+    <ion-row>
+      <ion-col>
+        <h3>Lista de Times</h3>
+        <ion-list *ngFor="let proj of projects">
+          <ion-item-sliding>
+            <ion-item>
+              <ion-label>
+                <h2>{{proj.title}}</h2>
+              </ion-label>
+              <ion-text>
+                <p>{{proj.description}}</p>
+              </ion-text>
+            </ion-item>
+            
+            <ion-item-options side="end">
+              <ion-item-option color="danger" (click)="delete(proj)">
+                <ion-icon name="trash-outline"></ion-icon>
+              </ion-item-option>
+              <ion-item-option color="success" (click)="edit(proj)">
+                <ion-icon name="create-outline"></ion-icon>
+              </ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
 
 <app-ionic-tabs></app-ionic-tabs>

@@ -1,7 +1,7 @@
 
 export class Task {
-    public _project: string;
-    private _key: string;
+    public _projectId: number;
+    private _id: number;
     private _title: string;
     private _description: string;
     private _priority: number;
@@ -10,24 +10,24 @@ export class Task {
     private _rememberMe: number;
     private _completed: boolean;
 
-    public get key(): string
+    public get id(): number
     {
-        return this._key;
+        return this._id;
     }
 
-    public set key(key: string)
+    public set id(id: number)
     {
-        this._key = key;
+        this._id = id;
     }
 
-    public get project(): string
+    public get projectId(): number
     {
-        return this._project;
+        return this._projectId;
     }
 
-    public set project(project: string)
+    public set projectId(projectId: number)
     {
-        this._project = project;
+        this._projectId = projectId;
     }
 
     public get title(): string {
