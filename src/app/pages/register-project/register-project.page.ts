@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class RegisterProjectPage implements OnInit {
   project = {} as Project;
-  projects = {} as Project[];
+  projects : Project[];
 
   private headerTitle: string;
 
