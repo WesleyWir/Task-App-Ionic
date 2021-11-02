@@ -7,10 +7,10 @@ const routes: Routes = [
     redirectTo: 'register-project',
     pathMatch: 'full'
   },
-  // {
-  //   path: 'task-list',
-  //   loadChildren: () => import('./pages/task-list/task-list.module').then( m => m.TaskListPageModule)
-  // },
+  {
+    path: 'task-list',
+    loadChildren: () => import('./pages/task-list/task-list.module').then( m => m.TaskListPageModule)
+  },
   {
     path: 'register-task',
     loadChildren: () => import('./pages/register-task/register-task.module').then( m => m.RegisterTaskPageModule)

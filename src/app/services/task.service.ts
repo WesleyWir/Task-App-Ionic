@@ -25,6 +25,17 @@ export class TaskService {
     );
   };
 
+  getTasksFromProject(key : number): Observable<Task[]> 
+  {
+    return this.httpClient.get<Task[]>(this.API_TASK_ROUTE, {
+      params: {projectId: key}
+    })
+    .pipe(
+      retry(2),
+      catchError(this.handlerError)
+    );
+  };
+
   getTask(id: number): Observable<Task>
   {
     return this.httpClient.get<Task>(`${this.API_TASK_ROUTE}/${id}`)

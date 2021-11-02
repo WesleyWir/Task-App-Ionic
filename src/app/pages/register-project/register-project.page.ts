@@ -30,7 +30,6 @@ export class RegisterProjectPage implements OnInit {
   getProjects(){
     this.ProjectService.getProjects().subscribe((projects: Project[]) => {
       this.projects = projects;
-      console.log(this.projects);
     });
   }
 
