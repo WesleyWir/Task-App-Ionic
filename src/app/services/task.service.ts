@@ -25,9 +25,22 @@ export class TaskService {
     );
   };
 
+  getTasksFromProject(key : number): Observable<Task[]> 
+  {
+    return this.httpClient.get<Task[]>(this.API_TASK_ROUTE, {
+      params: {_projectId: key}
+    })
+    .pipe(
+      retry(2),
+      catchError(this.handlerError)
+    );
+  };
+
   getTask(id: number): Observable<Task>
   {
-    return this.httpClient.get<Task>(`${this.API_TASK_ROUTE}/${id}`)
+    return this.httpClient.get<Task>(this.API_TASK_ROUTE, {
+      params: {_id: id}
+    })
     .pipe(
       retry(2),
       catchError(this.handlerError)
@@ -50,8 +63,10 @@ export class TaskService {
     );
   }
 
-  deleteTask(project: Task): Observable<Task>{
-    return this.httpClient.delete<Task>(`${this.API_TASK_ROUTE}/${project.id}`)
+  deleteTask(task: Task): Observable<Task>{
+    return this.httpClient.delete<Task>(this.API_TASK_ROUTE, {
+      params: {_id: task.id}
+    })
     .pipe(
       retry(2),
       catchError(this.handlerError)

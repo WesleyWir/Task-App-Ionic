@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class RegisterProjectPage implements OnInit {
   project = {} as Project;
-  projects = {} as Project[];
+  projects : Project[];
 
   private headerTitle: string;
 
@@ -30,7 +30,6 @@ export class RegisterProjectPage implements OnInit {
   getProjects(){
     this.ProjectService.getProjects().subscribe((projects: Project[]) => {
       this.projects = projects;
-      console.log(this.projects);
     });
   }
 
