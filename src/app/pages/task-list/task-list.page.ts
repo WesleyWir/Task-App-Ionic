@@ -75,10 +75,9 @@ export class TaskListPage implements OnInit {
 
   private async completeTask(event){
     let key = parseInt(event.target.value);
-    console.log(key);
-
 
     this.TaskService.getTask(key).subscribe((task: Task) => {
+      task.completed = true;
       this.deleteTask(task);
     });
   }

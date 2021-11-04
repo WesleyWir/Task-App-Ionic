@@ -62,6 +62,7 @@ export class RegisterTaskPage implements OnInit {
     this.model.entryDate = this._formCreateTask.value["entryDate"];
     this.model.deadlineDate = this._formCreateTask.value["deadlineDate"];
     this.model.rememberMe = this._formCreateTask.value["rememberMe"];
+    this.model.completed = false;
 
     this.save();
   }

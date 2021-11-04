@@ -1,37 +1,5 @@
 {
-  "tasks": [
-    {
-      "id": 1,
-      "projectId": 1,
-      "title": "Rio de Janeiro",
-      "description": "",
-      "priority": "",
-      "entryDate": "2021-10-31T01:18:30.887-03:00",
-      "deadlineDate": "2021-10-31T01:18:31.888-03:00",
-      "rememberMe": "",
-      "completed": false
-    },
-    {
-      "projectId": 1,
-      "title": "Task 1 ",
-      "description": "Lorem Ipsum",
-      "priority": "3",
-      "entryDate": "2021-10-31T01:18:29.882-03:00",
-      "deadlineDate": "2021-11-30T01:18:29.885-03:00",
-      "rememberMe": "1",
-      "id": 2
-    },
-    {
-      "projectId": 2,
-      "title": "Task 2",
-      "description": "123456",
-      "priority": "3",
-      "entryDate": "2021-10-31T01:22:32.141-03:00",
-      "deadlineDate": "2020-10-31T01:22:32.143-03:00",
-      "rememberMe": "2",
-      "id": 3
-    }
-  ],
+  "tasks": [],
   "projects": [
     {
       "title": "Projeto 1",

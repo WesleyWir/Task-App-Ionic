@@ -35,15 +35,14 @@ export class DetailsTaskPage implements OnInit {
     
     const nav = this.router.getCurrentNavigation();
     this._task = new Task();
-    
-    this._task.id = nav.extras.state.item._id;
-    this._task.projectId = nav.extras.state.item._projectId;
-    this._task.title = nav.extras.state.item._title;
-    this._task.description = nav.extras.state.item._description;
-    this._task.priority = nav.extras.state.item._priority;
-    this._task.entryDate = nav.extras.state.item._entryDate;
-    this._task.deadlineDate = nav.extras.state.item._deadlineDate;
-    this._task.rememberMe = nav.extras.state.item._rememberMe;
+    this._task.id = nav.extras.state.item.id;
+    this._task.projectId = nav.extras.state.item.projectId;
+    this._task.title = nav.extras.state.item.title;
+    this._task.description = nav.extras.state.item.description;
+    this._task.priority = nav.extras.state.item.priority;
+    this._task.entryDate = nav.extras.state.item.entryDate;
+    this._task.deadlineDate = nav.extras.state.item.deadlineDate;
+    this._task.rememberMe = nav.extras.state.item.rememberMe;
 
     this._formDetailTask = this.formBuilder.group({
       id: [this._task.id, [Validators.required]],
