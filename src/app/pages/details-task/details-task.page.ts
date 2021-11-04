@@ -4,7 +4,8 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { Task } from 'src/app/model/task';
 import { TaskService } from 'src/app/services/task.service';
-import { ProjectList, ProjectService } from 'src/app/services/project.service';
+import { ProjectService } from 'src/app/services/project.service';
+import { Project } from 'src/app/model/project';
 
 @Component({
   selector: 'app-details-task',
@@ -18,7 +19,7 @@ export class DetailsTaskPage implements OnInit {
   private _formDetailTask: FormGroup;
   private _isSubmitted: boolean = false;
   private _editar: boolean = false;
-  public projectList: ProjectList[];
+  public projectList: Project[];
 
   constructor(
     private router: Router,
@@ -35,18 +36,18 @@ export class DetailsTaskPage implements OnInit {
     const nav = this.router.getCurrentNavigation();
     this._task = new Task();
     
-    this._task.key = nav.extras.state.item.key;
-    this._task.project = nav.extras.state.item.task._project;
-    this._task.title = nav.extras.state.item.task._title;
-    this._task.description = nav.extras.state.item.task._description;
-    this._task.priority = nav.extras.state.item.task._priority;
-    this._task.entryDate = nav.extras.state.item.task._entryDate;
-    this._task.deadlineDate = nav.extras.state.item.task._deadlineDate;
-    this._task.rememberMe = nav.extras.state.item.task._rememberMe;
+    this._task.id = nav.extras.state.item._id;
+    this._task.projectId = nav.extras.state.item._projectId;
+    this._task.title = nav.extras.state.item._title;
+    this._task.description = nav.extras.state.item._description;
+    this._task.priority = nav.extras.state.item._priority;
+    this._task.entryDate = nav.extras.state.item._entryDate;
+    this._task.deadlineDate = nav.extras.state.item._deadlineDate;
+    this._task.rememberMe = nav.extras.state.item._rememberMe;
 
     this._formDetailTask = this.formBuilder.group({
-      key: [this._task.key, [Validators.required]],
-      project: [this._task.project, [Validators.required]],
+      id: [this._task.id, [Validators.required]],
+      projectId: [this._task.projectId, [Validators.required]],
       title: [this._task.title, [Validators.required]],
       description: [this._task.description, [Validators.required]],
       priority: [this._task.priority, [Validators.required]],
@@ -57,15 +58,15 @@ export class DetailsTaskPage implements OnInit {
   }
 
   async ionViewDidEnter() {
-    this.projectList = await this.getProjectsToSelect();
+    this.getProjectsToSelect();
   }
 
   public submitForm() {
     this._isSubmitted = true;
     this.model = new Task();
 
-    this.model.key = this._formDetailTask.value["key"];
-    this.model.project = this._formDetailTask.value["project"];
+    this.model.id = this._formDetailTask.value["id"];
+    this.model.projectId = this._formDetailTask.value["projectId"];
     this.model.title = this._formDetailTask.value["title"];
     
     this.model.description = this._formDetailTask.value["description"];
@@ -74,29 +75,22 @@ export class DetailsTaskPage implements OnInit {
     this.model.deadlineDate = this._formDetailTask.value["deadlineDate"];
     this.model.rememberMe = this._formDetailTask.value["rememberMe"];
 
-    this.update(this.model.key);
+    this.update(this.model);
   }
 
-  private async getProjectsToSelect() {
-    let projects = await this.ProjectService.getAllProjects()
-      .then((result) => result)
-      .then(data => data);
-    return projects;
+  private getProjectsToSelect() {
+    this.ProjectService.getProjects()
+    .subscribe((projects: Project[]) => {
+      this.projectList = projects;
+    });
   }
 
-  update(key) {
-    this.updateTask(key)
-      .then(() => {
-        this.alert("TAREFA", "SUCESSO", "Tarefa Atualizada!");
+  update(model) {
+    this.TaskService.updateTask(model)
+    .subscribe(() => {
+      this.alert("TAREFA", "SUCESSO", "Tarefa Atualizada!");
         this.router.navigate(["/task-list"]);
-      })
-      .catch(() => {
-        this.alert("TAREFA", "ERRO", "Não foi possível atualizar a tarefa :(");
-      });
-  }
-
-  private updateTask(key) {
-    return this.TaskService.update(key, this.model);
+    });
   }
 
   async alert(title: string, subtitle: string, message: string) {
@@ -126,7 +120,7 @@ export class DetailsTaskPage implements OnInit {
         }, {
           text: 'Confirmar',
           handler: () => {
-            this.deleteTask();
+            this.deleteTask(this._task);
           }
         }
       ]
@@ -135,14 +129,12 @@ export class DetailsTaskPage implements OnInit {
     await alert.present();
   }
 
-  public deleteTask(){
-    this.TaskService.remove(this._task.key)
-      .then(() => {
-        this.alert("TAREFA", "SUCESSO", "Tarefa Removida!");
-        this.router.navigate(["/task-list"]);
-      })
-      .catch(() => {
-        this.alert("TAREFA", "ERRO", "Não foi possível atualizar a tarefa :(");
-      });
+  public deleteTask(task: Task){
+    this.TaskService.deleteTask(task)
+    .subscribe(() => {
+      this.alert("TAREFA", "SUCESSO", "Tarefa Removida!");
+      this.router.navigate(["/task-list"]);
+    });
+        
   }
 }

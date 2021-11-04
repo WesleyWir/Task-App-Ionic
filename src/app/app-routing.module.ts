@@ -19,10 +19,10 @@ const routes: Routes = [
     path: 'register-project',
     loadChildren: () => import('./pages/register-project/register-project.module').then( m => m.RegisterProjectPageModule)
   },
-  // {
-  //   path: 'details-task',
-  //   loadChildren: () => import('./pages/details-task/details-task.module').then( m => m.DetailsTaskPageModule)
-  // },
+  {
+    path: 'details-task',
+    loadChildren: () => import('./pages/details-task/details-task.module').then( m => m.DetailsTaskPageModule)
+  },
 ];
 
 @NgModule({

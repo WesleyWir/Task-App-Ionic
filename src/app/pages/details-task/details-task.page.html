@@ -2,15 +2,19 @@
 
 <ion-content>
     <form [formGroup]="_formDetailTask" (ngSubmit)="submitForm()" novalidate>
-        <ion-input type="hidden" formControlName="key"></ion-input>
+        <ion-input type="hidden" formControlName="id"></ion-input>
         <ion-grid>
             <ion-row>
                 <ion-col size="12">
                     <ion-item lines="none">
-                        <ion-select class="custom-options" 
+                        <ion-select class="custom-options"
                             id="ion-select-project" 
-                            placeholder="Selecione o Projeto" formControlName="project">
-                            <ion-select-option value="{{ item.key }}" *ngFor="let item of projectList">{{ item.project._title }}</ion-select-option>
+                            placeholder="Selecione o Projeto" formControlName="projectId">
+                            <ion-item *ngFor="let item of projectList">
+                                <ion-select-option *ngIf="item.projectId == _task.projectId" selected>{{ item.title }}</ion-select-option>
+                                <ion-select-option value="{{ item.id }}">{{ item.title }}</ion-select-option>
+                            </ion-item>
+                            
                         </ion-select>
                     </ion-item>
                 </ion-col>

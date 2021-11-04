@@ -53,35 +53,35 @@ export class TaskListPage implements OnInit {
 
   private async getTasksFromProject(key: number){
     this.TaskService.getTasksFromProject(key).subscribe((tasks: Task[]) => {
-      console.log(tasks);
       this.taskList = tasks;
     });
   }
 
-  /* public async deleteTask(key, element){
-    this.TaskService.remove(key)
-      .then(() => {
-        element.classList.add("finished");
-      })
-      .catch((err) => {
-        console.log(err)
-      });
-  } */
+  public async deleteTask(task : Task){
+    this.TaskService.deleteTask(task)
+    .subscribe(() => {
+      //this.alert("TAREFA", "SUCESSO", "Tarefa Removida!");
+      this.router.navigate(["/task-list"]);
+    });
+  }
 
   // EVENTS;
 
   private async changeProject(event){
-    let selectedProject = event.target.value;
+    let selectedProject = parseInt(event.target.value);
 
     this.getTasksFromProject(selectedProject);
   }
 
-  /* private async completeTask(event){
-    let parent = event.target.parentElement;
-    let key = 'task_'+event.target.value;
+  private async completeTask(event){
+    let key = parseInt(event.target.value);
+    console.log(key);
 
-    this.deleteTask(key, parent);
-  } */
+
+    this.TaskService.getTask(key).subscribe((task: Task) => {
+      this.deleteTask(task);
+    });
+  }
 
   private goToEdit(item: Task){
     this.router.navigateByUrl('/details-task', {state: {item}});
