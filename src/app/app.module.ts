@@ -12,15 +12,23 @@ import { IonicStorageModule } from '@ionic/storage-angular';
 import { TaskService } from './services/task.service';
 import { ProjectService } from './services/project.service';
 import { DatePipe } from '@angular/common';
+import { AngularFireModule } from '@angular/fire';
+import { environment } from 'src/environments/environment.prod';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(),
-    HttpClientModule, 
+  imports: [
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
+    BrowserModule, IonicModule.forRoot(),
+    HttpClientModule,
     AppRoutingModule, IonicStorageModule.forRoot()],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    DatePipe, 
+    DatePipe,
     TaskService, ProjectService],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
