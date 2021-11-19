@@ -17,7 +17,6 @@ export class LoginPage implements OnInit {
   constructor(public alertController: AlertController,
     public router: Router, public auth: AuthService, public formBuilder: FormBuilder) { }
 
-
   ngOnInit() {
     this.headerTitle = 'Tarefas';
     this._formLogin = this.formBuilder.group({
@@ -32,29 +31,32 @@ export class LoginPage implements OnInit {
   public submitForm() {
     this._isSubmited = true;
     if (!this._formLogin.valid) {
-      this.presentAlert('Tarefas', 'Erro', 'Campos são obrigatórios.');
+      this.presentAlert('Tarefas', 'Erro', 'Campos inválidos.');
       return false;
-    } else {
-      this.login();
     }
+    this.login();
   }
 
   private login(): void {
     this.auth.login(this._formLogin.value['email'], this._formLogin.value['senha'])
       .then((res) => {
-        this.presentAlert('Agenda', 'Sucesso', 'Seja bem vindo.');
-        this.router.navigate(["/home"]);
+        this.presentAlert('Tarefas', 'Sucesso', 'Seja bem vindo.');
+        this.router.navigate(["/task-list"]);
       }).catch((error) => {
-        this.presentAlert('Agenda', 'Erro', 'Erro ao cadastrar: ' + error.message);
+        this.presentAlert('Tarefas', 'Erro', 'Erro ao Logar: ' + error.message);
       });
   }
 
-  /* private logarComGmail(): void {
-    this.auth.loginComGoogle();
-  } */
+  private logarComGoogle(): void {
+    this.auth.signInWithGoogle();
+  }
+
+  private logarComFacebook(): void {
+    this.auth.signInWithFacebook();
+  }
 
   private irParaCadastrar(): void {
-    this.router.navigate(["/criar-usuario"]);
+    this.router.navigate(["/signup"]);
   }
 
   private irParaRecuperar(): void {
@@ -68,7 +70,6 @@ export class LoginPage implements OnInit {
       message: msg,
       buttons: ['OK']
     });
-
     await alert.present();
 
   }
