@@ -9,15 +9,15 @@ import { auth } from 'firebase/app'
   providedIn: 'root'
 })
 export class AuthService {
-  usuarioDados: any;
+  dataUser: any;
   constructor(public afStore: AngularFirestore,
     public ngFireAuth: AngularFireAuth,
     public router: Router,
     public ngZone: NgZone) {
     this.ngFireAuth.authState.subscribe(user => {
       if (user) {
-        this.usuarioDados = user;
-        localStorage.setItem('user', JSON.stringify(this.usuarioDados));
+        this.dataUser = user;
+        localStorage.setItem('user', JSON.stringify(this.dataUser));
         JSON.parse(localStorage.getItem('user'));
       } else {
         localStorage.setItem('user', null);
@@ -78,15 +78,6 @@ export class AuthService {
     } else {
       return null;
     }
-  }
-
-  public recuperarSenha(email: string) {
-    return this.ngFireAuth.sendPasswordResetEmail(email)
-      .then(() => {
-        console.log("Enviado para o Email")
-      }).catch((error) => {
-        console.log(error)
-      })
   }
 
   public signup(email: string, senha: string) {

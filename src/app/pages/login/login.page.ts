@@ -40,10 +40,10 @@ export class LoginPage implements OnInit {
   private login(): void {
     this.auth.login(this._formLogin.value['email'], this._formLogin.value['senha'])
       .then((res) => {
-        this.presentAlert('Agenda', 'Sucesso', 'Seja bem vindo.');
+        this.presentAlert('Tarefas', 'Sucesso', 'Seja bem vindo.');
         this.router.navigate(["/task-list"]);
       }).catch((error) => {
-        this.presentAlert('Agenda', 'Erro', 'Erro ao Logar: ' + error.message);
+        this.presentAlert('Tarefas', 'Erro', 'Erro ao Logar: ' + error.message);
       });
   }
 
@@ -70,7 +70,6 @@ export class LoginPage implements OnInit {
       message: msg,
       buttons: ['OK']
     });
-
     await alert.present();
 
   }

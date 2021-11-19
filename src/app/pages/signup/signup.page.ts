@@ -35,24 +35,23 @@ export class SignupPage implements OnInit {
   submitForm() {
     this.isSubmitted = true;
     if (!this._formCadastrar.valid) {
-      this.presentAlert("Agenda", "Cadastrar", "Todos os Campos são Obrigatórios!");
+      this.presentAlert("Tarefas", "Cadastrar", "Todos os Campos são Obrigatórios!");
       return false;
-    } else {
-      this.cadastrar()
     }
+    this.cadastrar();
   }
 
   private cadastrar(): void {
 
     this.auth.signup(this._formCadastrar.value['email'], this._formCadastrar.value['senha'])
     .then((res) => {
-      this.presentAlert('Agenda', 'Sucesso', 'Cadastro efetuado.');
+      this.presentAlert('Tarefas', 'Sucesso', 'Cadastro efetuado.');
       this._router.navigate(["/login"]);
     }).catch((error) => {
-      this.presentAlert('Agenda', 'Erro', 'Erro ao cadastrar: ' + error.message);
+      this.presentAlert('Tarefas', 'Erro', 'Erro ao cadastrar: ' + error.message);
     });
 
-    this.presentAlert("Agenda", "Cadastrar", "Seja Bem vindo!");
+    this.presentAlert("Tarefas", "Cadastrar", "Seja Bem vindo!");
     this._router.navigate(["/login"]);
   }
 
