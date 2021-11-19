@@ -56,7 +56,7 @@ export class LoginPage implements OnInit {
   }
 
   private irParaCadastrar(): void {
-    this.router.navigate(["/criar-usuario"]);
+    this.router.navigate(["/signup"]);
   }
 
   private irParaRecuperar(): void {

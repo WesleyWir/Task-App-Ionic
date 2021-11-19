@@ -15,39 +15,38 @@
       <span *ngIf="isSubmitted && errorControl.email.errors?.required">
         Email é Obrigatório.
       </span>
-     <span  *ngIf="isSubmitted && errorControl.email.errors?.email">
+      <span *ngIf="isSubmitted && errorControl.email.errors?.email">
         Formato de Email inválido
-     </span>
+      </span>
       <ion-item>
-        <ion-label position="floating" >Senha</ion-label>
+        <ion-label position="floating">Senha</ion-label>
         <ion-input type="password" formControlName="senha"></ion-input>
       </ion-item>
-         <!-- Error messages -->
-         <span *ngIf="isSubmitted && errorControl.senha.errors?.required">
-          Senha é Obrigatória.
-        </span>
-       <span  *ngIf="isSubmitted && errorControl.senha.errors?.minlength">
-          A senha é de no mínimo 6 caracteres.
-       </span>
-       <ion-item>
-        <ion-label position="floating" >Confirmar Senha</ion-label>
+      <!-- Error messages -->
+      <span *ngIf="isSubmitted && errorControl.senha.errors?.required">
+        Senha é Obrigatória.
+      </span>
+      <span *ngIf="isSubmitted && errorControl.senha.errors?.minlength">
+        A senha é de no mínimo 6 caracteres.
+      </span>
+      <ion-item>
+        <ion-label position="floating">Confirmar Senha</ion-label>
         <ion-input type="password" formControlName="confSenha"></ion-input>
       </ion-item>
-         <!-- Error messages -->
-         <span *ngIf="isSubmitted && errorControl.confSenha.errors?.required">
-          Senha é Obrigatória.
-        </span>
-       <span  *ngIf="isSubmitted && errorControl.confSenha.errors?.minlength">
-          A Confirmação senha é de no mínimo 6 caracteres.
-       </span>
-       <span  *ngIf="isSubmitted && errorControl.confSenha.errors?.minlength">
+      <!-- Error messages -->
+      <span *ngIf="isSubmitted && errorControl.confSenha.errors?.required">
+        Senha é Obrigatória.
+      </span>
+      <span *ngIf="isSubmitted && errorControl.confSenha.errors?.minlength">
         A Confirmação senha é de no mínimo 6 caracteres.
-       </span>
-       <span  *ngIf="isSubmitted && this._formCadastrar.value['senha'] != this._formCadastrar.value['confSenha']">
-       As senhas não conferem.
-       </span>
-   
-    <ion-button  expand="full"  color="success" type="submit">Cadastrar</ion-button>
-  </form>
-    </ion-list>
+      </span>
+      <span *ngIf="isSubmitted && errorControl.confSenha.errors?.minlength">
+        A Confirmação senha é de no mínimo 6 caracteres.
+      </span>
+      <span *ngIf="isSubmitted && this._formCadastrar.value['senha'] != this._formCadastrar.value['confSenha']">
+        As senhas não conferem.
+      </span>
+      <ion-button expand="full" color="success" type="submit">Cadastrar</ion-button>
+    </form>
+  </ion-list>
 </ion-content>
