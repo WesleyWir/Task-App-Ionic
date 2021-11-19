@@ -8,23 +8,55 @@
         <ion-col size="12">
           <ion-item lines="none">
             <ion-label position="floating">Email</ion-label>
-            <ion-input type="text"></ion-input>
-        </ion-item>
+            <ion-input type="text" formControlName="email"></ion-input>
+            <span class="error" *ngIf="_isSubmited && errorControl.email.errors?.required">
+              Email é obrigatório.
+            </span>
+            <span class="error" *ngIf="_isSubmited && errorControl.email.errors?.email">
+              Formato de email incorreto.
+            </span>
+          </ion-item>
         </ion-col>
         <ion-col size="12">
           <ion-item lines="none">
             <ion-label position="floating">Senha</ion-label>
-            <ion-input type="text"></ion-input>
-        </ion-item>
+            <ion-input type="password" formControlName="senha"></ion-input>
+            <span class="error" *ngIf="_isSubmited && errorControl.senha.errors?.required">
+              Senha é obrigatória.
+            </span>
+            <span class="error" *ngIf="_isSubmited && errorControl.senha.errors?.minLength">
+              Senha precisa possuir no minimo 8 caracteres.
+            </span>
+          </ion-item>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col size="12">
-            <ion-button color="success" expand="full" class="create-task" type="submit">
-                <strong>Entrar</strong>
-            </ion-button>
+          <ion-button color="success" expand="full" class="create-task" type="submit">
+            <strong>Entrar</strong>
+          </ion-button>
         </ion-col>
-    </ion-row>
+      </ion-row>
+      <ion-row>
+        <ion-col class="ion-align-self-end" size="12">
+          <ion-button color="primary" class="social-button" type="submit">
+            <ion-icon name="logo-facebook"></ion-icon>
+            <strong class="social-login-labels">Entrar com Facebook</strong>
+          </ion-button>
+        </ion-col>
+        <ion-col size="12">
+          <ion-button color="danger" class="social-button" (click)="logarComGoogle()">
+            <ion-icon name="logo-google"></ion-icon>
+            <strong class="social-login-labels">Entrar com Google</strong>
+          </ion-button>
+        </ion-col>
+        <ion-col size="12">
+          <ion-button color="secondary" class="social-button" type="submit">
+            <ion-icon name="logo-twitter"></ion-icon>
+            <strong class="social-login-labels">Entrar com Twitter</strong>
+          </ion-button>
+        </ion-col>
+      </ion-row>
     </ion-grid>
   </form>
 </ion-content>

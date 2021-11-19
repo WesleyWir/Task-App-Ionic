@@ -1,90 +1,94 @@
 import { Injectable, NgZone } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
-import { auth } from 'firebase';
-import { Usuario } from '../model/usuario';
+import { User } from '../model/user';
+import { auth } from 'firebase/app'
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-
   usuarioDados: any;
+  constructor(public afStore: AngularFirestore,
+    public ngFireAuth: AngularFireAuth,
+    public router: Router,
+    public ngZone: NgZone) {
+    this.ngFireAuth.authState.subscribe(user => {
+      if (user) {
+        this.usuarioDados = user;
+        localStorage.setItem('user', JSON.stringify(this.usuarioDados));
+        JSON.parse(localStorage.getItem('user'));
+      } else {
+        localStorage.setItem('user', null);
+        JSON.parse(localStorage.getItem('user'));
+      }
+    })
+  }
 
-	constructor(public ngFireAuth: AngularFireAuth,
-		public router: Router,
-		public ngZone: NgZone,
-		public toastController: ToastController) {
-		this.ngFireAuth.authState.subscribe(user => {
-			if (user) {
-				this.usuarioDados = user;
-				localStorage.setItem('user', JSON.stringify(this.usuarioDados));
-				JSON.parse(localStorage.getItem('user'));
-				return;
-			}
+  public login(email: string, password: string) {
+    return this.ngFireAuth.signInWithEmailAndPassword(email, password);
+  }
 
-			localStorage.setItem('user', null);
-			JSON.parse(localStorage.getItem('user'));
-		});
-	}
+  public loginWithEmailPassword(email: string, password: string) {
+    return this.ngFireAuth.createUserWithEmailAndPassword(email, password)
+  }
 
-	public login(email: string, senha: string) {
-		return this.ngFireAuth.signInWithEmailAndPassword(email, senha);
-	}
+  public AuthLogin(provider) {
+    return this.ngFireAuth.signInWithPopup(provider)
+      .then((result) => {
+        this.ngZone.run(() => {
+          this.router.navigate(['task-list']);
+        })
+        this.SetUserData(result.user);
+      }).catch((error) => {
+        window.alert(error)
+      })
+  }
 
-	public cadastrar(email: string, senha: string) {
-		return this.ngFireAuth.createUserWithEmailAndPassword(email, senha);
-	}
+  public signInWithGoogle() {
+    this.AuthLogin(new auth.GoogleAuthProvider());
+  }
 
-	public loginComGoogle() {
-		this.AuthLogin(new auth.GoogleAuthProvider());
-	}
+  public SetUserData(user) {
+    const userRef: AngularFirestoreDocument<any> = this.afStore.doc(`users/${user.uid}`);
+    const userData: User = {
+      uid: user.uid,
+      email: user.email,
+      name: user.displayName,
+    }
+    return userRef.set(userData, {
+      merge: true
+    })
+  }
 
-	public AuthLogin(provider) {
-		return this.ngFireAuth.signInWithPopup(provider)
-			.then((result) => {
-				this.presentToast('Logou com Google');
-				this.ngZone.run(() => {
-					this.router.navigate(['home'])
-				})
-			})
-			.catch((err) => {
-				this.presentToast(err);
-			});
-	}
+  public estaLogado(): boolean {
+    const user = JSON.parse(localStorage.getItem('user'));
+    return (user !== null) ? true : false;
+  }
 
-	public estaLogado() : boolean {
-		const user = JSON.parse(localStorage.getItem('user'));
-		return user !== null;
-	}
+  public getUsuarioLogado(): User {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user != null) {
+      return user;
+    } else {
+      return null;
+    }
+  }
 
-	public getUsuarioLogado() : Usuario {
-		const user = JSON.parse(localStorage.getItem('user'));
-		console.log(user);
-		return (user !== null) ? user : null;
-	}
+  public recuperarSenha(email: string) {
+    return this.ngFireAuth.sendPasswordResetEmail(email)
+      .then(() => {
+        console.log("Enviado para o Email")
+      }).catch((error) => {
+        console.log(error)
+      })
+  }
 
-	public recuperarSenha(email : string) {
-		return this.ngFireAuth.sendPasswordResetEmail(email)
-		.then(() => this.presentToast('Enviado para o email ' + email))
-		.catch(err => this.presentToast(err));
-	}
-
-	public logout() {
-		return this.ngFireAuth.signOut()
-		.then(() => {
-			this.presentToast('Volte sempre!');
-			localStorage.removeItem('user');
-			this.router.navigate(['login']);
-		});
-	}
-
-	async presentToast(message : string) {
-		const toast = await this.toastController.create({
-		  message: message,
-		  duration: 5000
-		});
-		toast.present();
-	  }
+  public signOut() {
+    return this.ngFireAuth.signOut().then(() => {
+      localStorage.removeItem('user');
+      this.router.navigate(['signIn']);
+    })
+  }
 }
