@@ -50,6 +50,10 @@ export class AuthService {
     this.AuthLogin(new auth.GoogleAuthProvider());
   }
 
+  public signInWithFacebook() {
+    this.AuthLogin(new auth.FacebookAuthProvider());
+  }
+
   public SetUserData(user) {
     const userRef: AngularFirestoreDocument<any> = this.afStore.doc(`users/${user.uid}`);
     const userData: User = {

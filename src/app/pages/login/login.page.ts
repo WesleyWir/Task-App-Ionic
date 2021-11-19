@@ -51,9 +51,9 @@ export class LoginPage implements OnInit {
     this.auth.signInWithGoogle();
   }
 
-  private siginFacebook(): void { }
-  
-  private siginTwitter(): void { }
+  private logarComFacebook(): void {
+    this.auth.signInWithFacebook();
+  }
 
   private irParaCadastrar(): void {
     this.router.navigate(["/criar-usuario"]);
