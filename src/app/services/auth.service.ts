@@ -89,6 +89,10 @@ export class AuthService {
       })
   }
 
+  public signup(email: string, senha: string) {
+		return this.ngFireAuth.createUserWithEmailAndPassword(email, senha);
+	}
+
   public signOut() {
     return this.ngFireAuth.signOut().then(() => {
       localStorage.removeItem('user');
