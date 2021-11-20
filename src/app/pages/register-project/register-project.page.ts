@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ProjectService } from 'src/app/services/project.service';
+// import { ProjectService } from 'src/app/services/project.service';
+import { CrudProjectService } from 'src/app/services/crud-project.service';
 import { Project } from 'src/app/model/project';
 import { ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
@@ -12,12 +13,13 @@ import { Router } from '@angular/router';
 export class RegisterProjectPage implements OnInit {
   project = {} as Project;
   projects : Project[];
+  private data : any;
 
   private headerTitle: string;
 
   constructor(
     public router: Router,
-    private ProjectService: ProjectService,
+    private ProjectService: CrudProjectService,
     public toast: ToastController
   ) {
   }
@@ -28,9 +30,20 @@ export class RegisterProjectPage implements OnInit {
   }
 
   getProjects(){
-    this.ProjectService.getProjects().subscribe((projects: Project[]) => {
-      this.projects = projects;
+    this.data = this.ProjectService.getProjects();
+    this.data.forEach(data => {
+      const lista = data as Array<any>;
+      this.projects = [];
+      lista.forEach(c=> {
+        console.log(c);
+        let project = new Project();
+        project.id = c.key;
+        project.title = c.data.title;
+        project.description = c.data.description;
+        this.projects.push(project);
+      });
     });
+    console.log(this.projects);
   }
 
   save() {
@@ -39,16 +52,12 @@ export class RegisterProjectPage implements OnInit {
 
   private saveProject() {
     if(this.project.id != undefined){
-      this.ProjectService.updateProject(this.project)
-      .subscribe(() => {
-        this.presentToast("Salvou o seu novo projeto.");
-      })
+      this.ProjectService.editProject(this.project.id, this.project);
     }else{
-      this.ProjectService.saveProject(this.project)
-      .subscribe(() => {
-        this.presentToast(`Atualizou o projeto ${this.project.title}.`)
-      })
+      this.ProjectService.saveProject(this.project);
     }
+
+    this.getProjects();
   }
 
   edit(project: Project)
@@ -58,10 +67,7 @@ export class RegisterProjectPage implements OnInit {
 
   delete(project: Project)
   {
-    this.ProjectService.deleteProject(project)
-    .subscribe(() => {
-      this.presentToast("Deletou o Time.");
-    })
+    this.ProjectService.deleteProject(project.id);
   }
 
 
