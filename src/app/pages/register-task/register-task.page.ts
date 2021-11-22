@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastController } from '@ionic/angular';
 import { Task } from 'src/app/model/task';
-import { TaskService } from 'src/app/services/task.service';
-import { ProjectService } from 'src/app/services/project.service';
+import { CrudTaskService } from 'src/app/services/crud-task.service';
+import { CrudProjectService } from 'src/app/services/crud-project.service';
 import { Router } from '@angular/router';
 import { Project } from 'src/app/model/project';
 
@@ -19,11 +19,12 @@ export class RegisterTaskPage implements OnInit {
 
   private model: Task;
   public projectList: Project[];
+  private data : any;
 
   constructor(
     public router: Router,
-    private TaskService: TaskService,
-    private ProjectService: ProjectService,
+    private TaskService: CrudTaskService,
+    private ProjectService: CrudProjectService,
     public formBuilder: FormBuilder,
     private toast: ToastController
   ) {
@@ -72,16 +73,22 @@ export class RegisterTaskPage implements OnInit {
   }
 
   private saveTask(task: Task) {
-    return this.TaskService.saveTask(task)
-    .subscribe(() => {
-      this.presentToast(`Tarefa Criada`)
-    });
+    return this.TaskService.saveTask(task);
   }
 
   private getProjectsToSelect() {
-    let projects = this.ProjectService.getProjects()
-    .subscribe((projects: Project[]) => {
-      this.projectList = projects;
+    this.data = this.ProjectService.getProjects();
+    this.data.forEach(data => {
+      const lista = data as Array<any>;
+      this.projectList = [];
+      lista.forEach(c=> {
+        console.log(c);
+        let project = new Project();
+        project.id = c.key;
+        project.title = c.data.title;
+        project.description = c.data.description;
+        this.projectList.push(project);
+      });
     });
   }
 

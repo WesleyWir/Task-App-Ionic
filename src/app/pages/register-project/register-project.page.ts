@@ -43,7 +43,6 @@ export class RegisterProjectPage implements OnInit {
         this.projects.push(project);
       });
     });
-    console.log(this.projects);
   }
 
   save() {

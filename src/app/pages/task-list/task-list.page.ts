@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Project } from 'src/app/model/project';
 import { Task } from 'src/app/model/task';
-import { ProjectService } from 'src/app/services/project.service';
-import { TaskService } from 'src/app/services/task.service';
+import { CrudProjectService } from 'src/app/services/crud-project.service';
+import { CrudTaskService } from 'src/app/services/crud-task.service';
 
 @Component({
   selector: 'app-task-list',
@@ -16,11 +16,12 @@ export class TaskListPage implements OnInit {
 
   public projectList: Project[];
   public taskList: Task[];
+  private data : any;
 
   constructor(
     public router: Router,
-    private ProjectService: ProjectService,
-    private TaskService: TaskService,
+    private ProjectService: CrudProjectService,
+    private TaskService: CrudTaskService,
   ){
 
   }
@@ -35,40 +36,41 @@ export class TaskListPage implements OnInit {
 
   async ionViewWillEnter(){
     // TODO LISTAGEM
-    if(this.selectedProject){
-      this.getTasksFromProject(this.selectedProject);
-    }
+    // if(this.selectedProject){
+    //   this.getTasksFromProject(this.selectedProject);
+    // }
   }
 
   // SERVICES
 
   private getProjectsToSelect() {
-    this.ProjectService.getProjects()
-    .subscribe((projects: Project[]) => {
-      this.projectList = projects;
-
+    this.data = this.ProjectService.getProjects();
+    this.data.forEach(data => {
+      const lista = data as Array<any>;
+      this.projectList = [];
+      lista.forEach(c=> {
+        let project = new Project();
+        project.id = c.key;
+        project.title = c.data.title;
+        project.description = c.data.description;
+        this.projectList.push(project);
+      });
     });
-    
   }
 
-  private async getTasksFromProject(key: number){
-    this.TaskService.getTasksFromProject(key).subscribe((tasks: Task[]) => {
-      this.taskList = tasks;
-    });
+  private async getTasksFromProject(key: string){
+    this.TaskService.getTasksFromProject(key);
   }
 
   public async deleteTask(task : Task){
-    this.TaskService.deleteTask(task)
-    .subscribe(() => {
-      //this.alert("TAREFA", "SUCESSO", "Tarefa Removida!");
-      this.router.navigate(["/task-list"]);
-    });
+    console.log(task);
+    // this.TaskService.deleteTask(task);
   }
 
   // EVENTS;
 
   private async changeProject(event){
-    let selectedProject = parseInt(event.target.value);
+    let selectedProject = event.target.value;
 
     this.getTasksFromProject(selectedProject);
   }
@@ -76,10 +78,7 @@ export class TaskListPage implements OnInit {
   private async completeTask(event){
     let key = parseInt(event.target.value);
 
-    this.TaskService.getTask(key).subscribe((task: Task) => {
-      task.completed = true;
-      this.deleteTask(task);
-    });
+    // this.TaskService.getTask(key);
   }
 
   private goToEdit(item: Task){
